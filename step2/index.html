@@ -14,67 +14,61 @@
         scene.background = new THREE.Color( 0x1d1d1d );
         var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
         
+        // light
         // var light = new THREE.AmbientLight( 0x404040 ); // soft white light
         // scene.add( light );
         
-        var raycaster = new THREE.Raycaster();
-        var mouse = new THREE.Vector2(), SELECTED;
+        // mouse event
+        // var raycaster = new THREE.Raycaster();
+        // var mouse = new THREE.Vector2(), SELECTED;
 
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
         document.body.appendChild( renderer.domElement );
 
+        // Drawing table
         var geometry = new THREE.CylinderGeometry( 20, 20, 2, 80 );
-        
         var material = new THREE.MeshBasicMaterial();
         material.map = new THREE.ImageUtils.loadTexture('tree.jpg');
-
         material.bumpMap = new THREE.ImageUtils.loadTexture('tree.jpg');     
         material.bumpScale = 0.05;
-
         var cylinder = new THREE.Mesh( geometry, material );
-
-        // Drawing outline
-        // var edges = new THREE.EdgesGeometry( geometry );
-        // var line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0x351604 } ) );
-        // scene.add(line);
-
+        cylinder.rotation.x += Math.PI/10;
         scene.add(cylinder);
-
-        cylinder.rotation.x += 0.2;
+        
+        // Drawing table outline
+        // var edges = new THREE.EdgesGeometry( geometry );
+        // var line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial(  ) );
         // line.rotation.x += 0.2;
-
+        // scene.add(line);
+        
+        var screen = new THREE.BoxBufferGeometry( 8, 6, 0.1 );
+        var material2 = new THREE.MeshBasicMaterial({ color: 0xd32cd0 });
+        var object = new THREE.Mesh( screen, material2 );
+        object.position.x = -1 * 20 * Math.sin(Math.PI/2 *72 / 90);
+        object.position.y = 4;
+        object.position.z = 12;
+        object.rotation.x += Math.PI/10;
+        object.rotation.y += Math.PI/2 * 108 / 90;
+        scene.add( object );
+        
         camera.position.z = 30;
 
-        function onMouseMove( event ) {
+        // function onMouseMove( event ) {
 
-            // calculate mouse position in normalized device coordinates
-            // (-1 to +1) for both components
+        //     // calculate mouse position in normalized device coordinates
+        //     // (-1 to +1) for both components
 
-            mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-            mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+        //     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+        //     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
-        }
+        // }
 
         function render() {
-
-            // update the picking ray with the camera and mouse position
-            raycaster.setFromCamera( mouse, camera );
-
-            // calculate objects intersecting the picking ray
-            var intersects = raycaster.intersectObjects( scene.children );
-
-            for ( var i = 0; i < intersects.length; i++ ) {
-
-                intersects[ i ].object.material.color.set( 0x622806 );
-
-            }
-
+            requestAnimationFrame( render );
             renderer.render( scene, camera );
-
         }
 
-        window.addEventListener( 'mousemove', onMouseMove, false );
-        window.requestAnimationFrame(render);
+        render();
     </script>
 </body>
