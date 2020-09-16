@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cube</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r120/three.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r120/three.min.js"></script>
+    <script src='http://threejs.org/examples/js/controls/OrbitControls.js'></script>
+    <script src="js/threex.domevents.js"></script>
+    <script src="js/mouse.js"></script>
+
+    <style>
+        body { margin: 0; }
+        canvas { width: 100%; height: 100% }
+    </style>
+</head>
+<body>
+    <script>
+        var scene = new THREE.Scene();
+        var aspect = window.innerWidth / window.innerHeight;
+        var camera = new THREE.PerspectiveCamera(85, aspect, 0.1, 1000);
+        camera.position.set(0, 0, 50);
+
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        document.body.appendChild(renderer.domElement);
+
+        // table
+        var geometry = new THREE.CylinderGeometry( 20, 20, 2, 80 );
+        var material = new THREE.MeshBasicMaterial();
+        material.map = new THREE.ImageUtils.loadTexture('img/tree.jpg');
+        material.bumpMap = new THREE.ImageUtils.loadTexture('img/tree.jpg');     
+        material.bumpScale = 0.05;
+        var cylinder = new THREE.Mesh( geometry, material );
+        scene.add(cylinder);
+
+        // screen1
+        var screen1 = new THREE.BoxBufferGeometry( 8, 6, 0.1 );
+        var material1 = new THREE.MeshBasicMaterial({ color: 0xd32cd0 });
+        var object1 = new THREE.Mesh( screen1, material1 );
+        object1.position.x = 0;
+        object1.position.y = 4;
+        object1.position.z = 20;
+        object1.rotation.y += Math.PI;
+        scene.add( object1 );
+        
+        // screen2
+        var screen2 = new THREE.BoxBufferGeometry( 8, 6, 0.1 );
+        var material2 = new THREE.MeshBasicMaterial({ color: 0xd32cd0 });
+        var object2 = new THREE.Mesh( screen2, material2 );
+        object2.position.x = 20 * Math.sin(Math.PI/2 * 72 / 90);
+        object2.position.y = 4;
+        object2.position.z = 20 * Math.cos(Math.PI/2 * 72 / 90);
+        object2.rotation.y += Math.PI/2 * 72 / 90;
+        scene.add( object2 );
+
+        // screen3
+        var screen3 = new THREE.BoxBufferGeometry( 8, 6, 0.1 );
+        var material3 = new THREE.MeshBasicMaterial({ color: 0xd32cd0 });
+        var object3 = new THREE.Mesh( screen3, material3 );
+        object3.position.x = 20 * Math.sin(Math.PI/2 * 36 / 90);
+        object3.position.y = 4;
+        object3.position.z = -1 * 20 * Math.cos(Math.PI/2 * 36 / 90);
+        object3.rotation.y += Math.PI/2 * 144 / 90;
+        scene.add( object3 );
+
+        // screen4
+        var screen4 = new THREE.BoxBufferGeometry( 8, 6, 0.1 );
+        var material4 = new THREE.MeshBasicMaterial({ color: 0xd32cd0 });
+        var object4 = new THREE.Mesh( screen4, material4 );
+        object4.position.x = -1 * 20 * Math.sin(Math.PI/2 * 36 / 90);
+        object4.position.y = 4;
+        object4.position.z = -1 * 20 * Math.cos(Math.PI/2 * 36 / 90);
+        object4.rotation.y += Math.PI/2 * 36 / 90;
+        scene.add( object4 );
+
+        // screen5
+        var screen5 = new THREE.BoxBufferGeometry( 8, 6, 0.1 );
+        var material5 = new THREE.MeshBasicMaterial({ color: 0xd32cd0 });
+        var object5 = new THREE.Mesh( screen5, material5 );
+        object5.position.x = -1 * 20 * Math.sin(Math.PI/2 * 72 / 90);
+        object5.position.y = 4;
+        object5.position.z = 20 * Math.cos(Math.PI/2 * 72 / 90);
+        object5.rotation.y += Math.PI/2 * 108 / 90;
+        scene.add( object5 );
+
+        var spotLight = new THREE.SpotLight( 0xffffff );
+        spotLight.position.set(-35, 72, 80);
+        scene.add(spotLight);
+
+        // orbit controller
+        var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.update();
+
+        // Event listener
+        var domEvents = new THREEx.DomEvents(camera, renderer.domElement);
+
+        domEvents.addEventListener(object1, 'click', event => {
+            alert("screen1 click");
+        });
+        domEvents.addEventListener(object1, 'mouseover', event => {
+            document.body.style.cursor = "pointer";
+        });
+        domEvents.addEventListener(object1, 'mouseout', event => {
+            document.body.style.cursor = "default";
+        });
+
+        domEvents.addEventListener(object2, 'click', event => {
+            alert("screen2 click");
+        });
+        domEvents.addEventListener(object2, 'mouseover', event => {
+            document.body.style.cursor = "pointer";
+        });
+        domEvents.addEventListener(object2, 'mouseout', event => {
+            document.body.style.cursor = "default";
+        });
+
+        domEvents.addEventListener(object3, 'click', event => {
+            alert("screen3 click");
+        });
+        domEvents.addEventListener(object3, 'mouseover', event => {
+            document.body.style.cursor = "pointer";
+        });
+        domEvents.addEventListener(object3, 'mouseout', event => {
+            document.body.style.cursor = "default";
+        });
+
+        domEvents.addEventListener(object4, 'click', event => {
+            alert("screen4 click");
+        });
+        domEvents.addEventListener(object4, 'mouseover', event => {
+            document.body.style.cursor = "pointer";
+        });
+        domEvents.addEventListener(object4, 'mouseout', event => {
+            document.body.style.cursor = "default";
+        });
+
+        domEvents.addEventListener(object5, 'click', event => {
+            alert("screen5 click");
+        });
+        domEvents.addEventListener(object5, 'mouseover', event => {
+            document.body.style.cursor = "pointer";
+        });
+        domEvents.addEventListener(object5, 'mouseout', event => {
+            document.body.style.cursor = "default";
+        });
+
+
+
+        // 카메라 시작 각도 조절
+        camera.position.set( 0, 10, 30);
+        camera.lookAt(scene.position);
+        camera.up.set(0, 1, 0);
+        camera.updateProjectionMatrix();
+
+        function render() {
+            requestAnimationFrame( render );
+            controls.update();
+            renderer.render( scene, camera );
+        }
+
+        render();
+    </script>
+</body>
+</html>

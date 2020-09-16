@@ -12,6 +12,10 @@ app.get('/cube', (req, res) => {
     res.render('cube');
 });
 
+app.get('/table', (req, res) => {
+    res.render('table');
+});
+
 app.get('/space', (req, res) => {
     res.render('space');
 });
