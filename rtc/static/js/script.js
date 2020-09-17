@@ -39,6 +39,7 @@ socket.on('user-disconnected', userId => {
     if (peers[userId]) {
         peers[userId].close()
     }
+    USER_NUM = USER_NUM - 2;
 })
 
 myPeer.on('open', id => {
