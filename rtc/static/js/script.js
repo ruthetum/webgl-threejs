@@ -7,7 +7,7 @@ const videoGrid = document.getElementById('video-grid')
 const myVideo = document.createElement('video')
 myVideo.muted = true;
 const peers = {};
-var USER_NUM = 0;
+let USER = 0;
 
 navigator.mediaDevices.getUserMedia({
     video: true,
@@ -17,7 +17,7 @@ navigator.mediaDevices.getUserMedia({
 
     myPeer.on('call', call => {
         call.answer(stream)
-
+        
         const video = document.createElement('video');
         call.on('stream', userVideoStream => {
             addVideoStream(video, userVideoStream)
@@ -26,12 +26,12 @@ navigator.mediaDevices.getUserMedia({
 
     socket.on('user-connected', userId => {
         console.log('User connected : ' + userId);
-
         // user 연결 후 기다렸다가 동영상 로드
         setTimeout(() => {
             connectToNewUser(userId, stream)
         }, 500)
       })
+      
 })
 
 socket.on('user-disconnected', userId => {
@@ -39,7 +39,6 @@ socket.on('user-disconnected', userId => {
     if (peers[userId]) {
         peers[userId].close()
     }
-    USER_NUM = USER_NUM - 2;
 })
 
 myPeer.on('open', id => {
@@ -56,6 +55,7 @@ function connectToNewUser(userId, stream) {
 
     call.on('close', () => {
         video.remove();
+        USER = USER - 2;
     });
 
     peers[userId] = call
@@ -66,7 +66,7 @@ function addVideoStream(video, stream) {
     video.addEventListener('loadedmetadata', () => {
         video.play()
     })
-    USER_NUM = USER_NUM + 1;
-    video.id = "video" + USER_NUM;
+    USER = USER + 1;
+    video.id = "video" + USER;
     videoGrid.append(video)
 }
