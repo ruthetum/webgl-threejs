@@ -29,7 +29,7 @@ navigator.mediaDevices.getUserMedia({
         // user 연결 후 기다렸다가 동영상 로드
         setTimeout(() => {
             connectToNewUser(userId, stream)
-        }, 500)
+        }, 1000)
       })
       
 })
