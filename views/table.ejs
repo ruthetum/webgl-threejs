@@ -91,6 +91,9 @@
 
         // orbit controller
         var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.maxPolarAngle = Math.PI / 2;
+        controls.minDistance = 20;
+        controls.maxDistance = 50;
         controls.update();
 
         // Event listener
