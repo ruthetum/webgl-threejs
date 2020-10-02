@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cube</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r120/three.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r120/three.min.js"></script>
+    <script src="https://threejs.org/build/three.min.js"></script>
+    <script src='https://threejs.org/examples/js/controls/OrbitControls.js'></script>
+    <script src='https://threejs.org/examples/js/loaders/OBJLoader.js'></script>
+    <script src='https://threejs.org/examples/js/loaders/MTLLoader.js'></script>
+    <script src="js/threex.domevents.js"></script>
+
+    <style>
+        body { margin: 0; }
+        canvas { width: 100%; height: 100% }
+    </style>
+</head>
+<body>
+    <script>
+        var scene = new THREE.Scene();
+        var aspect = window.innerWidth / window.innerHeight;
+        var camera = new THREE.PerspectiveCamera(85, aspect, 0.1, 1000);
+        camera.position.set(0, 0, 10);
+
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        function loadOBJLoader(materials) {
+            var loader = new THREE.OBJLoader();
+            loader.setMaterials(materials);
+            console.log(materials);
+            loader.load('obj/spaceship/spaceship.obj', function (obj) {
+                obj.rotation.z += Math.PI/2;
+                scene.add(obj);
+                }, function(xhr) {
+                    console.log('OBJLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+                }, function(error) {
+                    console.log(error);
+                }
+            );
+        }
+
+        function loadMTLLoader() {
+            mtlLoader = new THREE.MTLLoader();
+            mtlLoader.load('obj/spaceship/spaceship.mtl', function (materials) {
+                materials.preload();
+                loadOBJLoader(materials);
+            }, function (xhr) {
+                console.log('MTLLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+            }, function (error) {
+                console.error(error);
+            });
+        }
+
+        loadMTLLoader();
+
+        // orbit controller
+        var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.update();
+
+
+        // 카메라 시작 각도 조절
+        camera.position.set( 0, 10, 20);
+        camera.lookAt(scene.position);
+        camera.up.set(0, 1, 0);
+        camera.updateProjectionMatrix();
+
+        var spotLight = new THREE.SpotLight( 0xffffff );
+        spotLight.position.set( 100, 1000, 100 );
+        spotLight.castShadow = true;
+        spotLight.shadow.mapSize.width = 1024;
+        spotLight.shadow.mapSize.height = 1024;
+        // spotLight.position.set(-35, 72, 80);
+        scene.add(spotLight);
+
+        function render() {
+            requestAnimationFrame( render );
+            controls.update();
+            renderer.render( scene, camera );
+        }
+
+        render();
+    </script>
+</body>
+</html>

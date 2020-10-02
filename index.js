@@ -20,4 +20,8 @@ app.get('/space', (req, res) => {
     res.render('space');
 });
 
+app.get('/mars', (req, res) => {
+    res.render('mars');
+});
+
 app.listen(3000);
