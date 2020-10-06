@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cube</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r120/three.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r120/three.min.js"></script>
+    <script src="https://threejs.org/build/three.min.js"></script>
+    <script src='https://threejs.org/examples/js/controls/OrbitControls.js'></script>
+    <script src='https://threejs.org/examples/js/loaders/OBJLoader.js'></script>
+    <script src='https://threejs.org/examples/js/loaders/MTLLoader.js'></script>
+    <script src="js/threex.domevents.js"></script>
+
+    <style>
+        body { margin: 0; }
+        canvas { width: 100%; height: 100% }
+    </style>
+</head>
+<body>
+    <script>
+        var scene = new THREE.Scene();
+        var aspect = window.innerWidth / window.innerHeight;
+        camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
+		camera.position.set( 100, 50, 150 );
+
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        var imageLoader = new THREE.TextureLoader();
+        imageLoader.load("img/metal2.jpg", data => {
+            // 철
+            var material_room = new THREE.MeshBasicMaterial({
+                map: data,
+                side: THREE.BackSide
+            })
+            // 큐브
+            var geometry_room = new THREE.BoxGeometry(300, 100, 300);
+            var boxMesh = new THREE.Mesh(geometry_room, material_room);
+            boxMesh.position.y += 40;
+            scene.add(boxMesh)
+        });
+
+        function loadChair1OBJ(materials) {
+            var loader = new THREE.OBJLoader();
+            loader.setMaterials(materials);
+            console.log(materials);
+            loader.load('obj/chair/1seter_obj.obj', function (obj) {
+                obj.position.x = -28;
+                obj.position.z = -20;
+                obj.rotation.y += Math.PI/3;
+                obj.scale.set(6,6,6);
+                scene.add(obj);
+                }, function(xhr) {
+                    console.log('OBJLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+                }, function(error) {
+                    console.log(error);
+                }
+            );
+        }
+
+        function loadChair1MTL() {
+            mtlLoader = new THREE.MTLLoader();
+            mtlLoader.load('obj/chair/1seter_obj.mtl', function (materials) {
+                materials.preload();
+                loadChair1OBJ(materials);
+            }, function (xhr) {
+                console.log('MTLLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+            }, function (error) {
+                console.error(error);
+            });
+        }
+
+        function loadChair2OBJ(materials) {
+            var loader = new THREE.OBJLoader();
+            loader.setMaterials(materials);
+            console.log(materials);
+            loader.load('obj/chair/2seter_obj.obj', function (obj) {
+                // obj.position.x = -28;
+                obj.position.z = -20;
+                // obj.rotation.y -= Math.PI/3;
+                obj.scale.set(6,6,6);
+                scene.add(obj);
+                }, function(xhr) {
+                    console.log('OBJLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+                }, function(error) {
+                    console.log(error);
+                }
+            );
+        }
+
+        function loadChair2MTL() {
+            mtlLoader = new THREE.MTLLoader();
+            mtlLoader.load('obj/chair/2seter_obj.mtl', function (materials) {
+                materials.preload();
+                loadChair2OBJ(materials);
+            }, function (xhr) {
+                console.log('MTLLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+            }, function (error) {
+                console.error(error);
+            });
+        }
+
+        function loadChair3OBJ(materials) {
+            var loader = new THREE.OBJLoader();
+            loader.setMaterials(materials);
+            console.log(materials);
+            loader.load('obj/chair/3seter_obj.obj', function (obj) {
+                obj.position.x = +28;
+                obj.position.z = -20;
+                obj.rotation.y -= Math.PI/3;
+                obj.scale.set(6,6,6);
+                scene.add(obj);
+                }, function(xhr) {
+                    console.log('OBJLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+                }, function(error) {
+                    console.log(error);
+                }
+            );
+        }
+
+        function loadChair3MTL() {
+            mtlLoader = new THREE.MTLLoader();
+            mtlLoader.load('obj/chair/3seter_obj.mtl', function (materials) {
+                materials.preload();
+                loadChair3OBJ(materials);
+            }, function (xhr) {
+                console.log('MTLLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+            }, function (error) {
+                console.error(error);
+            });
+        }
+
+        loadChair1MTL();
+        loadChair2MTL();
+        loadChair3MTL();
+
+        // orbit controller
+        var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.maxPolarAngle = Math.PI * 0.48;
+        // controls.minDistance = 30;
+        // controls.maxDistance = 800;
+        controls.update();
+
+
+        // 카메라 시작 각도 조절
+        camera.position.set( -100, 50, 150 );
+        camera.lookAt(scene.position);
+        camera.up.set(0, 1, 0);
+        camera.updateProjectionMatrix();
+
+        scene.add( new THREE.AmbientLight( 0x666666 ) );
+        var light = new THREE.DirectionalLight( 0xdfebff, 1 );
+        light.position.set( 50, 200, 100 );
+        light.position.multiplyScalar( 1.3 );
+        light.castShadow = true;
+        light.shadow.mapSize.width = 1024;
+        light.shadow.mapSize.height = 1024;
+        var d = 300;
+        light.shadow.camera.left = - d;
+        light.shadow.camera.right = d;
+        light.shadow.camera.top = d;
+        light.shadow.camera.bottom = - d;
+        light.shadow.camera.far = 1000;
+        scene.add( light );
+
+
+        function render() {
+            requestAnimationFrame( render );
+            controls.update();
+            renderer.render( scene, camera );
+        }
+
+        render();
+    </script>
+</body>
+</html>
