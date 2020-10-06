@@ -24,4 +24,12 @@ app.get('/mars', (req, res) => {
     res.render('mars');
 });
 
+app.get('/tunnel', (req, res) => {
+    res.render('tunnel');
+});
+
+app.get('/room', (req, res) => {
+    res.render('room');
+})
+
 app.listen(3000);
