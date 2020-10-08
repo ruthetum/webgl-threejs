@@ -29,7 +29,7 @@
         document.body.appendChild(renderer.domElement);
 
         var imageLoader = new THREE.TextureLoader();
-        imageLoader.load("img/metal2.jpg", data => {
+        imageLoader.load("img/shiphull1.jpg", data => {
             // 철
             var material_room = new THREE.MeshBasicMaterial({
                 map: data,
@@ -77,9 +77,9 @@
             loader.setMaterials(materials);
             console.log(materials);
             loader.load('obj/chair/2seter_obj.obj', function (obj) {
-                // obj.position.x = -28;
+                obj.position.x = +28;
                 obj.position.z = -20;
-                // obj.rotation.y -= Math.PI/3;
+                obj.rotation.y -= Math.PI/3;
                 obj.scale.set(6,6,6);
                 scene.add(obj);
                 }, function(xhr) {
@@ -107,9 +107,9 @@
             loader.setMaterials(materials);
             console.log(materials);
             loader.load('obj/chair/3seter_obj.obj', function (obj) {
-                obj.position.x = +28;
+                // obj.position.x = -28;
                 obj.position.z = -20;
-                obj.rotation.y -= Math.PI/3;
+                // obj.rotation.y -= Math.PI/3;
                 obj.scale.set(6,6,6);
                 scene.add(obj);
                 }, function(xhr) {

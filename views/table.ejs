@@ -26,11 +26,24 @@
 
         document.body.appendChild(renderer.domElement);
 
+        // room
+        var imageLoader = new THREE.TextureLoader();
+        imageLoader.load("img/shiphull1.jpg", data => {
+            var material_room = new THREE.MeshBasicMaterial({
+                map: data,
+                side: THREE.BackSide
+            })
+            var geometry_room = new THREE.BoxGeometry(300, 100, 300);
+            var boxMesh = new THREE.Mesh(geometry_room, material_room);
+            boxMesh.position.y += 40;
+            scene.add(boxMesh)
+        });
+
         // table
         var geometry = new THREE.CylinderGeometry( 20, 20, 2, 80 );
         var material = new THREE.MeshBasicMaterial();
-        material.map = new THREE.ImageUtils.loadTexture('img/tree.jpg');
-        material.bumpMap = new THREE.ImageUtils.loadTexture('img/tree.jpg');     
+        material.map = new THREE.ImageUtils.loadTexture('img/metal2.jpg');
+        material.bumpMap = new THREE.ImageUtils.loadTexture('img/metal2.jpg');     
         material.bumpScale = 0.05;
         var cylinder = new THREE.Mesh( geometry, material );
         scene.add(cylinder);
