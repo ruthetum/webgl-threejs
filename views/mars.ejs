@@ -70,22 +70,6 @@
         } 
         viewSky();
 
-        function loadSpaceshipOBJ(materials) {
-            var loader = new THREE.OBJLoader();
-            loader.setMaterials(materials);
-            console.log(materials);
-            loader.load('obj/spaceship/spaceship.obj', function (obj) {
-                obj.rotation.z += Math.PI/2;
-                obj.scale.set(6,6,6);
-                scene.add(obj);
-                }, function(xhr) {
-                    console.log('OBJLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
-                }, function(error) {
-                    console.log(error);
-                }
-            );
-        }
-
         function loadGroundOBJ() {
             var loader = new THREE.OBJLoader();
             loader.load('obj/mars/mars.obj', function (obj) {
@@ -107,6 +91,21 @@
             );
         }
 
+        function loadSpaceshipOBJ(materials) {
+            var loader = new THREE.OBJLoader();
+            loader.setMaterials(materials);
+            console.log(materials);
+            loader.load('obj/spaceship/spaceship.obj', function (obj) {
+                obj.rotation.z += Math.PI/2;
+                obj.scale.set(6,6,6);
+                scene.add(obj);
+                }, function(xhr) {
+                    console.log('OBJLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+                }, function(error) {
+                    console.log(error);
+                }
+            );
+        }
         function loadSpaceshipMTL() {
             mtlLoader = new THREE.MTLLoader();
             mtlLoader.load('obj/spaceship/spaceship.mtl', function (materials) {
@@ -119,7 +118,37 @@
             });
         }
 
+        function loadAstronautOBJ(materials) {
+            var loader = new THREE.OBJLoader();
+            loader.setMaterials(materials);
+            console.log(materials);
+            loader.load('obj/astronaut/astro.obj', function (obj) {
+                obj.position.x = 12;
+                obj.position.y = -5;
+                obj.position.z = -5;
+                obj.scale.set(0.08, 0.08, 0.08);
+                scene.add(obj);
+                }, function(xhr) {
+                    console.log('OBJLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+                }, function(error) {
+                    console.log(error);
+                }
+            );
+        }
+        function loadAstronautMTL() {
+            mtlLoader = new THREE.MTLLoader();
+            mtlLoader.load('obj/astronaut/astro.mtl', function (materials) {
+                materials.preload();
+                loadAstronautOBJ(materials);
+            }, function (xhr) {
+                console.log('MTLLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+            }, function (error) {
+                console.error(error);
+            });
+        }
+
         loadSpaceshipMTL();
+        loadAstronautMTL();
         loadGroundOBJ()
 
         // orbit controller
