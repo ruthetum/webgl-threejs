@@ -32,4 +32,8 @@ app.get('/room', (req, res) => {
     res.render('room');
 })
 
+app.get('/candle', (req, res) => {
+    res.render('candle');
+})
+
 app.listen(3000);
