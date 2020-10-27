@@ -15,23 +15,36 @@
     <script src="js/threex.domevents.js"></script>
 
     <style>
-        body { margin: 0; }
-        canvas { width: 100%; height: 100% }
+        body { margin: 0; overflow: hidden; }
+        canvas { height:100%; width: 100%; }
+        .connect-form {
+            position:absolute;
+            background-color: aliceblue;
+            border: 1px black solid;
+            right:0;
+            z-index: 5;
+        }
     </style>
 </head>
 <body>
+    <div class="connect-form">
+        <form>
+            <input />
+            <input />
+            <button>submit</button>
+        </form>
+    </div>
+
     <script>
         var scene = new THREE.Scene();
         // scene.background = new THREE.Color( 0xc9a26c );
-		// scene.fog = new THREE.Fog( 0x413f50, 500, 2000 );
+        // scene.fog = new THREE.Fog( 0x413f50, 500, 2000 );
         var aspect = window.innerWidth / window.innerHeight;
-        // camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
-        // camera.position.set( 1000, 50, 1500 );
         camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 20000 );
         var clock = new THREE.Clock();
-
+        
         var renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(window.innerWidth, window.innerHeight * 1.05);
         document.body.appendChild(renderer.domElement);
 
         var sky = new THREE.Sky();
@@ -84,7 +97,7 @@
                 });
                 scene.add(obj);
                 }, function(xhr) {
-                    console.log('OBJLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+                    console.log('Ground OBJLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
                 }, function(error) {
                     console.log(error);
                 }
@@ -100,7 +113,7 @@
                 obj.scale.set(6,6,6);
                 scene.add(obj);
                 }, function(xhr) {
-                    console.log('OBJLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+                    console.log('Spaceship OBJLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
                 }, function(error) {
                     console.log(error);
                 }
@@ -112,7 +125,7 @@
                 materials.preload();
                 loadSpaceshipOBJ(materials);
             }, function (xhr) {
-                console.log('MTLLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+                console.log('Spaceship MTLLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
             }, function (error) {
                 console.error(error);
             });
@@ -129,7 +142,7 @@
                 obj.scale.set(0.08, 0.08, 0.08);
                 scene.add(obj);
                 }, function(xhr) {
-                    console.log('OBJLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+                    console.log('Astronaut OBJLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
                 }, function(error) {
                     console.log(error);
                 }
@@ -141,7 +154,7 @@
                 materials.preload();
                 loadAstronautOBJ(materials);
             }, function (xhr) {
-                console.log('MTLLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
+                console.log('Astronaut MTLLoader: ', xhr.loaded / xhr.total * 100, '% loaded');
             }, function (error) {
                 console.error(error);
             });
@@ -225,7 +238,7 @@
         function render() {
             requestAnimationFrame( render );
             // controls.update();
-            window.addEventListener( 'resize', onWindowResize, false );
+            window.addEventListener( 'resize', onWindowResize, true );
             controls.update( clock.getDelta());
             limitCameraPosition();
             renderer.render( scene, camera );
