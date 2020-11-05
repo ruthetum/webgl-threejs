@@ -89,7 +89,7 @@
                 obj.rotation.x -= Math.PI/2;
                 obj.position.y = -12;
 
-                var texture = new THREE.TextureLoader().load('obj/mars/diffuse.png');
+                var texture = new THREE.TextureLoader().load('obj/mars/diffuse1.png');
                 obj.traverse(function (child) {
                     if (child instanceof THREE.Mesh) {
                         child.material.map = texture;
