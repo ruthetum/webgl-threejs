@@ -36,4 +36,8 @@ app.get('/candle', (req, res) => {
     res.render('candle');
 })
 
+app.get('/mars-outside', (req, res) => {
+    res.render('mars-outside');
+})
+
 app.listen(3000);
