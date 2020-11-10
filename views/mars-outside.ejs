@@ -46,21 +46,21 @@
             scene.add(mesh)
         });
 
-        var geometry = new THREE.SphereGeometry(28, 32, 32)
+        var geometry = new THREE.SphereGeometry(25, 32, 32)
         var material = new THREE.MeshBasicMaterial();
         material.map = new THREE.ImageUtils.loadTexture('img/marsmap1k.jpg');
         material.bumpMap = new THREE.ImageUtils.loadTexture('img/marsbump1k.jpg');     
         material.bumpScale = 0.05;
         var mars = new THREE.Mesh( geometry, material );
-        mars.position.x = -45;
-        mars.position.y = 3;
+        mars.position.x = -50;
+        mars.position.y = 5;
         scene.add(mars);
 
         // orbit controller
         var controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.maxPolarAngle = Math.PI * 0.48;
         controls.minDistance = 30;
-        controls.maxDistance = 800;
+        controls.maxDistance = 500;
         controls.update();
 
 
