@@ -40,4 +40,8 @@ app.get('/mars-outside', (req, res) => {
     res.render('mars-outside');
 })
 
+app.get('/text', (req, res) => {
+    res.render('text');
+})
+
 app.listen(3000);
